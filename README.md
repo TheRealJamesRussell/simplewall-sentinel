@@ -1,6 +1,6 @@
 # 🛡️ Simplewall Sentinel
 
-Analyze Simplewall firewall alerts and get clear, practical decisions on what to allow or block — optimized for a **privacy-focused but stable Windows setup**.
+Analyze Simplewall firewall alerts and get clear, practical decisions on what to allow or block, optimized for a **privacy-focused but stable Windows setup**.
 
 ---
 
@@ -11,7 +11,7 @@ Simplewall Sentinel is a lightweight system that:
 - Interprets Simplewall alerts (screenshots or exports)
 - Explains what each connection does
 - Recommends **ALLOW / BLOCK / DEPENDS**
-- Maintains a **persistent rule set** using a compact `.toon` format
+- Maintains a **persistent rule set** using a compact `.toon` format so the agent has context
 - Learns your decisions over time
 
 ---
@@ -24,29 +24,65 @@ Instead of guessing every time:
 
 - Block telemetry, ads, unused services  
 - Allow security, updates, and apps you actually use  
-- Keep your system quiet and predictable  
 
 ---
 
-## 📦 Repo Structure
+## 🧰 Setup Options
+
+### 🤖 Option 1: Custom GPT
+
+You do not need to download the repo for this option.
+
+1. Create a Custom GPT in ChatGPT  
+2. Open and copy the contents of:
 
 ```
-simplewall-sentinel/
-  README.md
-  ai_instructions.md
-  simplewall_rules.toon
-
-  custom-gpt/
-    custom-gpt-instructions.md
-    generate-toon-from-xml.prompt.md
-    simplewall_rules.template.toon
+custom-gpt/custom-gpt-instructions.md
 ```
+
+3. Upload:
+
+```
+custom-gpt/simplewall_rules.template.toon
+```
+
+4. Done
+
+---
+
+### 💻 Option 2: Local Agent Setup
+
+Download only the local agent files:
+
+```
+mkdir simplewall-sentinel-local-agent
+cd simplewall-sentinel-local-agent
+curl -L -o ai_instructions.md https://raw.githubusercontent.com/TheRealJamesRussell/simplewall-sentinel/Main/local-agent/ai_instructions.md
+curl -L -o simplewall_rules.toon https://raw.githubusercontent.com/TheRealJamesRussell/simplewall-sentinel/Main/local-agent/simplewall_rules.toon
+```
+
+ai_instructions.md is the ONLY instruction file in the repo.
+
+ai_instructions.md is the core brain for all local AI agents.
+
+The user must rename ai_instructions.md depending on the tool they are using:
+
+- Codex → rename to AGENTS.md
+- Claude → rename to CLAUDE.md
+- Gemini → rename to GEMINI.md
+- Any other tool → follow that tool’s expected filename
+
+The AI agent reads ai_instructions.md after renaming, analyzes Simplewall screenshots, and reads AND updates simplewall_rules.toon automatically.
+
+Start your agent in the folder with the renamed instruction file and simplewall_rules.toon.
 
 ---
 
 ## 🧾 TOON Format (Core Memory System)
 
-We use a **token-efficient rule format** instead of JSON:
+We use a **token-efficient format** to store context and rules line by line for the agent to make decisions. The agent checks the `.toon` file first so it can use past decisions as context for future alerts.
+
+For example, if the `.toon` file shows that the user uses Xbox Game Pass, the agent can recognize that an important Xbox network call should usually be allowed.
 
 ```
 rules[N]{process,name,category,decision,reason}:
@@ -79,117 +115,20 @@ rules[N]{process,name,category,decision,reason}:
 
 ---
 
-## 🧰 Setup Options
+## 🔄 Updating TOON From Existing Simplewall Rules
 
-### 🤖 Option 1 — Custom GPT (Easiest)
-
-1. Create a Custom GPT in ChatGPT  
-2. Paste contents of:
-
-```
-custom-gpt/custom-gpt-instructions.md
-```
-
-3. Upload:
-
-```
-simplewall_rules.template.toon
-```
-
-(or your own `.toon` file)
-
-4. Done
-
----
-
-### 💻 Option 2 — Local Agent Setup
-
-1. Open project folder in your agent environment  
-2. Use:
-
-```
-ai_instructions.md
-simplewall_rules.toon
-```
-
-ai_instructions.md is the ONLY instruction file in the repo.
-
-ai_instructions.md is the core brain for all local AI agents.
-
-The user must rename ai_instructions.md depending on the tool they are using:
-
-- Codex → rename to AGENTS.md
-- Claude → rename to CLAUDE.md
-- Gemini → rename to GEMINI.md
-- Any other tool → follow that tool’s expected filename
-
-The AI agent reads ai_instructions.md after renaming, analyzes Simplewall screenshots, and reads AND updates simplewall_rules.toon automatically.
-
-3. Start your agent
-
----
-
-## 🔄 Generating Your Own Rules
-
-### Export from Simplewall
+This is only needed if you have been using Simplewall for a while and want to convert your existing local setup into a `.toon` file for the agent.
 
 1. Open Simplewall  
 2. File → Export  
 3. Save `.xml`
-
----
-
-### Convert to TOON
-
-Use:
+4. Use:
 
 ```
-custom-gpt/generate-toon-from-xml.prompt.md
+custom-gpt/generate-toon-from-simplewall-export.prompt.md
 ```
 
-Paste your XML → get a full `.toon` profile
-
----
-
-## 🧹 Recommended Cleanup
-
-Before building your rules:
-
-- Remove OneDrive (if unused)
-- Remove Intel Driver & Support Assistant
-- Remove Intel Computing Improvement Program
-- Remove unused VPNs / remote tools
-
----
-
-## 🎯 Goal
-
-End state:
-
-- 🔇 Minimal alerts
-- 🧠 Clear decisions
-- 🔒 Strong privacy
-- ⚙️ Stable system
-
----
-
-## ⚠️ Important Notes
-
-- Blocking core system processes can break Windows
-- Be careful with:
-  - svchost.exe
-  - taskhostw.exe
-  - lsass.exe
-
----
-
-## 🧪 Workflow
-
-1. See Simplewall alert  
-2. Send screenshot to agent  
-3. Get explanation + decision  
-4. Confirm decision  
-5. Rule gets saved
+Paste your XML to get a `.toon` profile that reflects the rules you already created locally.
 
 ---
 
