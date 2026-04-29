@@ -1,0 +1,6 @@
+simplewall_rules:
+  metadata:
+    source: ""
+    exported_at: ""
+  rules:
+    []
