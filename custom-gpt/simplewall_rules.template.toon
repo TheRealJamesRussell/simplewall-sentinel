@@ -1,6 +1,9 @@
-simplewall_rules:
-  metadata:
-    source: ""
-    exported_at: ""
-  rules:
-    []
+profile:
+  goal: privacy-focused stable Windows setup
+  default: block telemetry ads unused services; allow security updates networking and used apps
+  uses[0]:
+  unused[0]:
+
+rules[0]{process,name,category,decision,reason}:
+  # Example:
+  # msmpeng.exe,Microsoft Defender,security,allow,core antivirus engine
