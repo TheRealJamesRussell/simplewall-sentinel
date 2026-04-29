@@ -33,16 +33,13 @@ Instead of guessing every time:
 ```
 simplewall-sentinel/
   README.md
+  ai_instructions.md
+  simplewall_rules.toon
 
   custom-gpt/
     custom-gpt-instructions.md
     generate-toon-from-xml.prompt.md
     simplewall_rules.template.toon
-
-  local-agent/
-    AGENTS.md
-    CLAUDE.md
-    simplewall_rules.toon
 ```
 
 ---
@@ -105,17 +102,28 @@ simplewall_rules.template.toon
 
 ---
 
-### 💻 Option 2 — Local Agent (Codex / Claude)
+### 💻 Option 2 — Local Agent Setup
 
 1. Open project folder in your agent environment  
-2. Ensure:
+2. Use:
 
 ```
-local-agent/
-  AGENTS.md
-  CLAUDE.md
-  simplewall_rules.toon
+ai_instructions.md
+simplewall_rules.toon
 ```
+
+ai_instructions.md is the ONLY instruction file in the repo.
+
+ai_instructions.md is the core brain for all local AI agents.
+
+The user must rename ai_instructions.md depending on the tool they are using:
+
+- Codex → rename to AGENTS.md
+- Claude → rename to CLAUDE.md
+- Gemini → rename to GEMINI.md
+- Any other tool → follow that tool’s expected filename
+
+The AI agent reads ai_instructions.md after renaming, analyzes Simplewall screenshots, and reads AND updates simplewall_rules.toon automatically.
 
 3. Start your agent
 
@@ -200,4 +208,3 @@ Simplewall Sentinel
 ## 📝 Description
 
 Analyzes Simplewall alerts and recommends allow/block decisions for a privacy-focused, stable Windows setup with persistent rule memory.
-
