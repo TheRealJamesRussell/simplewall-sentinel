@@ -55,8 +55,8 @@ custom-gpt/simplewall_rules.template.toon
 Download only the local agent files:
 
 ```
-mkdir simplewall-sentinel-local-agent
-cd simplewall-sentinel-local-agent
+mkdir simplewall-sentinel
+cd simplewall-sentinel
 curl -L -o ai_instructions.md https://raw.githubusercontent.com/TheRealJamesRussell/simplewall-sentinel/Main/local-agent/ai_instructions.md
 curl -L -o simplewall_rules.toon https://raw.githubusercontent.com/TheRealJamesRussell/simplewall-sentinel/Main/local-agent/simplewall_rules.toon
 ```
